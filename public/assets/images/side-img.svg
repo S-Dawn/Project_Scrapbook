@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1080" viewBox="0 0 960 1080" role="img" aria-labelledby="title4 desc4">
+  <title id="title4">ScrapBook login panel artwork</title>
+  <desc id="desc4">Left-side hero artwork for a travel blog login screen — dark framed composition with travel motifs (mountains, pin, airplane) and subtle light accents for contrast on black backgrounds.</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="1" stop-color="#050608"/>
+    </linearGradient>
+    <linearGradient id="horizon" x1="0" x2="1">
+      <stop offset="0" stop-color="#0F1724"/>
+      <stop offset="1" stop-color="#071021"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop offset="0" stop-color="#29B6F6"/>
+      <stop offset="1" stop-color="#1E88E5"/>
+    </linearGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="18" result="b"/>
+      <feBlend in="SourceGraphic" in2="b" mode="screen"/>
+    </filter>
+    <style><![CDATA[
+      .frame { fill: url(#bgGrad); }
+      .panel { fill: rgba(0,0,0,0.6); }
+      .mount { fill: url(#horizon); }
+      .accent-stroke { stroke: url(#accent); stroke-width:6; stroke-linecap:round; stroke-linejoin:round; }
+      .pin { fill: url(#accent); }
+      .air { fill: none; stroke: #9AD9FF; stroke-width:3; stroke-linecap:round; opacity:0.9; }
+      .meta { fill: #9FBFD6; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; }
+    ]]></style>
+  </defs>
+
+  <!-- Background frame (meant for dark UI) -->
+  <rect width="100%" height="100%" class="frame" rx="12"/>
+
+  <!-- subtle vignette using radial gradient-like circles -->
+  <g filter="url(#softGlow)">
+    <circle cx="260" cy="220" r="220" fill="#072235" opacity="0.25"/>
+    <circle cx="420" cy="420" r="300" fill="#041622" opacity="0.14"/>
+  </g>
+
+  <!-- horizon / distant mountains -->
+  <g transform="translate(0,260)">
+    <path class="mount" d="M0 500 L110 300 L210 420 L340 260 L480 420 L620 300 L760 420 L960 200 L960 560 L0 560 Z"/>
+    <path d="M40 420 L140 320 L230 420" fill="none" stroke="#062433" stroke-width="2" opacity="0.6"/>
+  </g>
+
+  <!-- foreground folded polaroid / frame shape -->
+  <g transform="translate(90,120)">
+    <rect x="0" y="0" width="420" height="600" rx="18" ry="18" fill="#07121A" opacity="0.72" />
+    <rect x="18" y="18" width="384" height="480" rx="12" ry="12" fill="#081821" stroke="#0B3550" stroke-width="2" />
+
+    <!-- lens / circular window inside polaroid -->
+    <circle cx="210" cy="180" r="84" fill="#0B79C1" opacity="0.95" />
+    <circle cx="210" cy="180" r="40" fill="#E3F2FD" opacity="0.88" />
+
+    <!-- small location pin overlapping the polaroid corner -->
+    <g transform="translate(280,320)">
+      <path class="pin" d="M24 0c0-12 11-22 24-22s24 10 24 22c0 12-24 46-24 46S24 12 24 0z"/>
+      <circle cx="48" cy="-6" r="10" fill="#FFFFFF" opacity="0.95" />
+      <circle cx="48" cy="-6" r="5" fill="#0B79C1" />
+    </g>
+
+    <!-- decorative travel icons -->
+    <g transform="translate(30,420)">
+      <rect x="0" y="0" width="60" height="40" rx="6" ry="6" fill="#06151B" stroke="#0E3B5F"/>
+      <path d="M4 8 L28 20 L56 6" fill="none" stroke="#1E88E5" stroke-width="2" opacity="0.95"/>
+      <text x="72" y="26" class="meta" font-size="14">Trips saved</text>
+    </g>
+  </g>
+
+  <!-- airplane flight path sweeping across the composition -->
+  <path class="air" d="M40 980 C220 820, 420 760, 740 620" stroke-dasharray="6 8"/>
+  <g transform="translate(730,610) scale(0.9)">
+    <path d="M0 0 L22 -6 L0 -12 L6 0 Z" fill="#9AD9FF" transform="rotate(-22) translate(-6,6)" />
+  </g>
+
+  <!-- large semi-transparent frame text (subtle) -->
+  <text x="540" y="980" font-size="64" class="meta" opacity="0.08" font-weight="700">Explore · Remember · Share</text>
+
+  <!-- subtle bottom glow for contrast where login panels sit on right half -->
+  <rect x="480" y="880" width="460" height="160" rx="8" fill="url(#accent)" opacity="0.02" />
+
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title1 desc1">
+  <title id="title1">ScrapBook primary logo</title>
+  <desc id="desc1">Compact icon (paper pin + camera lens + location marker) with "ScrapBook" wordmark in blue for dark backgrounds.</desc>
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0" stop-color="#29B6F6"/>
+      <stop offset="1" stop-color="#1E88E5"/>
+    </linearGradient>
+    <style><![CDATA[
+      :root{ --blue: #1E88E5; --light: #BBDEFB; }
+      .word { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; font-weight: 700; font-size:120px; fill:var(--blue); }
+      .tagline { font-family: Inter, system-ui; font-weight: 500; font-size:36px; fill: #B3E5FC; }
+      .icon-fill { fill: url(#g1); }
+      .icon-stroke { stroke: #0D47A1; stroke-width:6; stroke-linejoin:round; stroke-linecap:round; }
+    ]]></style>
+  </defs>
+
+  <g transform="translate(60,40) scale(1)">
+    <path class="icon-fill" d="M0 0h220v220a20 20 0 0 1-20 20H20A20 20 0 0 1 0 220z"/>
+    <path class="icon-stroke" d="M0 0h220v220a20 20 0 0 1-20 20H20A20 20 0 0 1 0 220z" fill="none"/>
+    <circle cx="110" cy="95" r="42" fill="#0B79C1" opacity="0.95" />
+    <circle cx="110" cy="95" r="22" fill="#E3F2FD" opacity="0.85" />
+    <g transform="translate(130,125)">
+      <path d="M0 0c0-20 18-36 40-36s40 16 40 36c0 20-40 80-40 80S0 20 0 0z" fill="#FFF" opacity="0.06"/>
+      <path d="M0 0c0-20 18-36 40-36s40 16 40 36c0 20-40 80-40 80S0 20 0 0z" class="icon-stroke" fill="none"/>
+      <circle cx="40" cy="-6" r="10" fill="#29B6F6" />
+    </g>
+  </g>
+
+  <text x="360" y="160" class="word">ScrapBook</text>
+  <text x="360" y="210" class="tagline">Travel posts · Stories · Places</text>
+</svg>
