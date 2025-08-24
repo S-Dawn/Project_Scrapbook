@@ -64,9 +64,25 @@ export async function signInAccount(user: { email: string; password: string }) {
   try {
     const session = await account.createEmailSession(user.email, user.password);
 
+    if (session) {
+      // Store session info in localStorage for persistence check
+      localStorage.setItem("cookieFallback", JSON.stringify([session]));
+    }
+
     return session;
   } catch (error) {
     console.log(error);
+  }
+}
+
+// ============================== CHECK SESSION
+export async function checkActiveSession() {
+  try {
+    const session = await account.getSession('current');
+    return !!session;
+  } catch (error: any) {
+    // No active session
+    return false;
   }
 }
 
@@ -75,9 +91,12 @@ export async function getAccount() {
   try {
     const currentAccount = await account.get();
 
-    return currentAccount;
-  } catch (error) {
-    console.log(error);
+    return currentAccount;  } catch (error: any) {
+    // Don't log 401 errors as they're expected when user is not authenticated
+    if (error.code !== 401) {
+      console.log(error);
+    }
+    return null;
   }
 }
 
@@ -86,7 +105,9 @@ export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
 
-    if (!currentAccount) throw Error;
+    if (!currentAccount) {
+      return null;
+    }
 
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
@@ -98,6 +119,7 @@ export async function getCurrentUser() {
 
     return currentUser.documents[0];
   } catch (error) {
+    // Only log errors that are not related to authentication
     console.log(error);
     return null;
   }
@@ -107,6 +129,11 @@ export async function getCurrentUser() {
 export async function signOutAccount() {
   try {
     const session = await account.deleteSession("current");
+
+    if (session) {
+      // Clear session info from localStorage
+      localStorage.removeItem("cookieFallback");
+    }
 
     return session;
   } catch (error) {

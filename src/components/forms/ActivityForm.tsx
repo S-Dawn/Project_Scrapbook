@@ -67,11 +67,10 @@ const ActivityForm = ({ journalId, journalTitle, onSuccess }: ActivityFormProps)
         toast({
           title: `Activity added successfully!`,
         });
-        
-        if (onSuccess) {
+          if (onSuccess) {
           onSuccess();
         } else {
-          navigate(`/journal-details/${journalId}`);
+          navigate(`/journal/${journalId}`);
         }
       }
     } catch (error) {

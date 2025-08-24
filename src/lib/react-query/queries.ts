@@ -90,6 +90,11 @@ export const useGetRecentPosts = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
     queryFn: getRecentPosts,
+    enabled: (() => {
+      // Only execute if there's a potential session in localStorage
+      const cookieFallback = localStorage.getItem("cookieFallback");
+      return cookieFallback !== "[]" && cookieFallback !== null && cookieFallback !== undefined;
+    })(),
   });
 };
 
@@ -218,6 +223,11 @@ export const useGetCurrentUser = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser,
+    enabled: (() => {
+      // Only execute if there's a potential session in localStorage
+      const cookieFallback = localStorage.getItem("cookieFallback");
+      return cookieFallback !== "[]" && cookieFallback !== null && cookieFallback !== undefined;
+    })(),
   });
 };
 
@@ -225,6 +235,11 @@ export const useGetUsers = (limit?: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: () => getUsers(limit),
+    enabled: (() => {
+      // Only execute if there's a potential session in localStorage
+      const cookieFallback = localStorage.getItem("cookieFallback");
+      return cookieFallback !== "[]" && cookieFallback !== null && cookieFallback !== undefined;
+    })(),
   });
 };
 
@@ -298,5 +313,10 @@ export const useGetRecentJournals = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_RECENT_JOURNALS],
     queryFn: getRecentJournals,
+    enabled: (() => {
+      // Only execute if there's a potential session in localStorage
+      const cookieFallback = localStorage.getItem("cookieFallback");
+      return cookieFallback !== "[]" && cookieFallback !== null && cookieFallback !== undefined;
+    })(),
   });
 };

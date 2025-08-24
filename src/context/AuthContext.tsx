@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { IUser } from "@/types";
-import { getCurrentUser } from "@/lib/appwrite/api";
+import { getCurrentUser, checkActiveSession } from "@/lib/appwrite/api";
 
 export const INITIAL_USER = {
   id: "",
@@ -39,10 +39,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const checkAuthUser = async () => {
     setIsLoading(true);
     try {
+      // First check if there's an active session to avoid unnecessary API calls
+      const hasActiveSession = await checkActiveSession();
+      
+      if (!hasActiveSession) {
+        setIsAuthenticated(false);
+        return false;
+      }
+
       const currentAccount = await getCurrentUser();      if (currentAccount) {
         setUser({
           id: currentAccount.$id,
@@ -61,23 +68,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return false;
     } catch (error) {
       console.error(error);
+      setIsAuthenticated(false);
       return false;
     } finally {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     const cookieFallback = localStorage.getItem("cookieFallback");
-    if (
-      cookieFallback === "[]" ||
-      cookieFallback === null ||
-      cookieFallback === undefined
-    ) {
-      navigate("/sign-in");
-    }
+    
+    // Only redirect to sign-in if we're sure there's no session
+    // Check for active session first before redirecting
+    const initAuth = async () => {
+      if (
+        cookieFallback === "[]" ||
+        cookieFallback === null ||
+        cookieFallback === undefined
+      ) {
+        // Check if there's still an active session before redirecting
+        const hasActiveSession = await checkActiveSession();
+        if (!hasActiveSession) {
+          navigate("/sign-in");
+          return;
+        }
+      }
+      
+      // Always check auth user on app load
+      await checkAuthUser();
+    };
 
-    checkAuthUser();
+    initAuth();
   }, []);
 
   const value = {

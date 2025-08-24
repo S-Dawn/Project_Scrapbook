@@ -19,7 +19,7 @@ import { JournalValidation } from "@/lib/validation";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
 import { FileUploader, Loader } from "@/components/shared";
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/queries";
+import { useCreateJournal, useUpdatePost } from "@/lib/react-query/queries";
 
 type JournalFormProps = {
   post?: Models.Document;
@@ -44,9 +44,8 @@ const JournalForm = ({ post, action }: JournalFormProps) => {
       tags: post ? post.tags.join(",") : "",
     },
   });
-
   // Query
-  const { mutateAsync: createPost, isLoading: isLoadingCreate } = useCreatePost();
+  const { mutateAsync: createJournal, isLoading: isLoadingCreate } = useCreateJournal();
   const { mutateAsync: updatePost, isLoading: isLoadingUpdate } = useUpdatePost();
 
   // Handler
@@ -67,16 +66,21 @@ const JournalForm = ({ post, action }: JournalFormProps) => {
         });
       }
       return navigate(`/journal/${post.$id}`);
-    }
-
-    // ACTION = CREATE
-    const newPost = await createPost({
-      ...value,
+    }    // ACTION = CREATE
+    const newJournal = await createJournal({
       userId: user.id,
-      dayNumber: parseInt(value.dayNumber),
+      title: value.journalTitle,
+      description: value.caption,
+      source: value.source,
+      destination: value.destination,
+      startDate: "", // You might want to add these fields to the form
+      endDate: "",   // You might want to add these fields to the form
+      duration: value.duration,
+      tags: value.tags,
+      coverImageFile: value.file,
     });
 
-    if (!newPost) {
+    if (!newJournal) {
       toast({
         title: `${action} journal failed. Please try again.`,
       });

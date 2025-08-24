@@ -2,6 +2,7 @@ import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui";
 import { multiFormatDateString } from "@/lib/utils";
+import { SmartImage } from "@/components/shared";
 
 type JournalCardProps = {
   journal: Models.Document;
@@ -10,13 +11,14 @@ type JournalCardProps = {
 };
 
 const JournalCard = ({ journal, onEdit, onDelete }: JournalCardProps) => {
-  return (
-    <div className="bg-dark-2 rounded-xl p-4 border border-dark-4 hover:border-dark-3 transition-colors">
+  return (    <div className="bg-dark-2 rounded-xl p-4 border border-dark-4 hover:border-dark-3 transition-colors">
       <Link to={`/journal/${journal.$id}`}>
-        <img
-          src={journal.imageUrl || "/assets/icons/profile-placeholder.svg"}
+        <SmartImage
+          src={journal.imageUrl}
           alt="journal cover"
+          imageId={journal.imageId}
           className="w-full h-48 object-cover rounded-lg mb-4"
+          fallbackSrc="/assets/icons/profile-placeholder.svg"
         />
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-light-1 line-clamp-2">

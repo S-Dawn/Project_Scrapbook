@@ -4,14 +4,15 @@ import { Models } from "appwrite";
 import { Button } from "@/components/ui";
 import { Loader, JournalCard } from "@/components/shared";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetUserPosts, useDeletePost } from "@/lib/react-query/queries";
+import { useGetUserJournals, useDeletePost } from "@/lib/react-query/queries";
 import { useToast } from "@/components/ui/use-toast";
 
 const MyJournals = () => {
-  const { user } = useUserContext();
+  const { user, isLoading: isUserLoading, isAuthenticated } = useUserContext();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { data: userPosts, isLoading } = useGetUserPosts(user.id);
+  
+  const { data: userJournals, isLoading } = useGetUserJournals(user.id);
   const { mutate: deletePost } = useDeletePost();
 
   const handleEdit = (journalId: string) => {
@@ -25,6 +26,22 @@ const MyJournals = () => {
     });
   };
 
+  // Show loading if user context is still loading
+  if (isUserLoading) {
+    return (
+      <div className="flex-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
+
+  // Redirect to sign-in if not authenticated
+  if (!isAuthenticated) {
+    navigate('/sign-in');
+    return null;
+  }
+
+  // Show loading if journals are being fetched
   if (isLoading) {
     return (
       <div className="flex-center w-full h-full">
@@ -59,10 +76,8 @@ const MyJournals = () => {
             Create New Journal
           </Button>
         </Link>
-      </div>
-
-      <div className="w-full max-w-5xl mt-8">
-        {!userPosts || userPosts.documents.length === 0 ? (
+      </div>      <div className="w-full max-w-5xl mt-8">
+        {!userJournals || userJournals.documents.length === 0 ? (
           <div className="flex-center flex-col gap-4 mt-10">
             <img
               src="/assets/icons/posts.svg"
@@ -86,7 +101,7 @@ const MyJournals = () => {
         ) : (
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {userPosts.documents.map((journal: Models.Document) => (
+              {userJournals.documents.map((journal: Models.Document) => (
                 <JournalCard
                   key={journal.$id}
                   journal={journal}
